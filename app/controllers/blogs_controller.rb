@@ -9,7 +9,18 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.find(params[:id])
+    # @blog = Blog.find(params[:id])
+    user_requested_id = params[:id]
+
+    blogs = if user_signed_in?
+              (Blog.keep_secret.find_by(id: user_requested_id, user_id: current_user.id) || Blog.published.find_by(id: user_requested_id))
+            else
+              Blog.published.find_by(id: user_requested_id)
+            end
+
+    raise ActiveRecord::RecordNotFound, 'Blog not found' if blogs.nil?
+
+    @blog = blogs
   end
 
   def new
