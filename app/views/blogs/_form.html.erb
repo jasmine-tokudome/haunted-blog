@@ -21,7 +21,7 @@
   <div class="mb-3">
     <%= form.label :content, class: "form-label" %>
     <%#= form.text_area :content, class: "form-control" %>
-    <%= form.text_area :content, class: "form-control", value: sanitize(blog.content, tags: tags, attributes: %w(href)) %>
+    <%= form.text_area :content, class: "form-control", value: sanitize(blog.content, tags: tags, attributes: %w(href,title)) %>
   </div>
 
   <div class="mb-3">
