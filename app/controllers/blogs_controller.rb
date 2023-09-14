@@ -48,7 +48,7 @@ class BlogsController < ApplicationController
       end
     else
       flash[:alert] = 'Random eyecatch can only be enabled by premium users.'
-      redirect_to blog_url(@blog), status: 302
+      redirect_to blog_url(@blog), status: :found
     end
   end
 
