@@ -1,5 +1,3 @@
-<% tags = %w(a acronym b strong i em li ul ol h1 h2 h3 h4 h5 h6 blockquote br cite sub sup ins p) %>
-
 <%= form_with(model: blog) do |form| %>
   <% if blog.errors.any? %>
     <div style="color: red">
@@ -20,8 +18,7 @@
 
   <div class="mb-3">
     <%= form.label :content, class: "form-label" %>
-    <%#= form.text_area :content, class: "form-control" %>
-    <%= form.text_area :content, class: "form-control", value: sanitize(blog.content, tags: tags, attributes: %w(href,title)) %>
+    <%= form.text_area :content, class: "form-control" %>
   </div>
 
   <div class="mb-3">
