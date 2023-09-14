@@ -40,10 +40,15 @@ class BlogsController < ApplicationController
   end
 
   def update
-    if @blog.update(blog_params)
-      redirect_to blog_url(@blog), notice: 'Blog was successfully updated.'
+    if current_user.premium? || blog_params[:random_eyecatch] == '0'
+      if @blog.update(blog_params)
+        redirect_to blog_url(@blog), notice: 'Blog was successfully updated.'
+      else
+        render :edit, status: :unprocessable_entity
+      end
     else
-      render :edit, status: :unprocessable_entity
+      flash[:alert] = 'Random eyecatch can only be enabled by premium users.'
+      redirect_to blog_url(@blog), status: 302
     end
   end
 
