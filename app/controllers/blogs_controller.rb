@@ -11,9 +11,9 @@ class BlogsController < ApplicationController
   def show
     user_requested_id = params[:id]
 
-    blogs = Blog.find_by(id: user_requested_id, user_id: (user_signed_in? ? current_user.id : nil)) || Blog.published.find(user_requested_id)
+    blog = Blog.find_by(id: user_requested_id, user_id: (user_signed_in? ? current_user.id : nil)) || Blog.published.find(user_requested_id)
 
-    @blog = blogs
+    @blog = blog
   end
 
   def new
