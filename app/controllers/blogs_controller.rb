@@ -11,13 +11,9 @@ class BlogsController < ApplicationController
   def show
     user_requested_id = params[:id]
 
-    blog = if user_signed_in?
-             Blog.where(id: user_requested_id)
-                 .where('(secret = ? AND user_id = ?) OR secret = ?', true, current_user.id, false)
-                 .take!
-           else
-             Blog.published.find(user_requested_id)
-           end
+    blog = Blog.where(id: user_requested_id)
+               .where('(secret = ? AND user_id = ?) OR secret = ?', true, current_user&.id, false)
+               .take!
 
     @blog = blog
   end
