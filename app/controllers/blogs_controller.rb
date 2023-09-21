@@ -13,10 +13,10 @@ class BlogsController < ApplicationController
 
     blog = if user_signed_in?
              Blog.where(id: user_requested_id)
-                 .where("(secret = ? AND user_id = ?) OR secret = ?", true, current_user.id, false)
+                 .where('(secret = ? AND user_id = ?) OR secret = ?', true, current_user.id, false)
                  .take!
            else
-             Blog.published.find(id: user_requested_id)
+             Blog.published.find(user_requested_id)
            end
 
     @blog = blog
@@ -39,8 +39,9 @@ class BlogsController < ApplicationController
   end
 
   def update
-    if @blog.update(blog_params)
-      @blog.update(random_eyecatch: false) unless current_user.premium?
+    random_eyecatch_value = current_user.premium? ? blog_params[:random_eyecatch] : false
+
+    if @blog.update(blog_params.merge(random_eyecatch: random_eyecatch_value))
       redirect_to blog_url(@blog), notice: 'Blog was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
