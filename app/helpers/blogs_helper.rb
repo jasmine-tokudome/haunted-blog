@@ -2,6 +2,6 @@
 
 module BlogsHelper
   def format_content(blog)
-    blog.content.gsub("\n", '<br>').html_safe # rubocop:disable Rails/OutputSafety
+    safe_join(blog.content.split("\n"), tag.br)
   end
 end
